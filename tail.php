@@ -4,6 +4,7 @@ function follow($file){
     $size = 0;
     $last = 0;
     $ip   = 0;
+    $alt  = 0;
     while (true) {
         clearstatcache();
         $currentSize = filesize($file);
@@ -25,12 +26,17 @@ function follow($file){
           }else{
             if($last == $in['date'] && $ip == $in['ip']){
               echo "Ip :  ".$ip. " | ".$in['date']." --- DDOS\r\n";
-              //shell_exec("");
+              $alt++; // plus alert
             }else{
               echo "Ip :  ".$ip. " | ".$in['date']." --- Normal\r\n";
               $last = $in['date'];
             }
           }
+        }
+        if($alt >= 5){ 
+          echo "CLOSE CONNECTION\r\n";
+          // Command Block IP In here
+           //shell_exec("");
         }
         fclose($fh);
         $size = $currentSize;
